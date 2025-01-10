@@ -1,5 +1,6 @@
 package com.example.todo_api.controller.sample;
 
+import com.example.todo_api.service.sample.SampleService;
 import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +13,12 @@ import java.time.LocalDateTime;
 @RequestMapping("/samples")
 public class SampleController {
 
+    private  final SampleService service = new SampleService();
+
     //GET /samples
     @GetMapping
     public SampleDTO index() {
-        return new SampleDTO("OK", LocalDateTime.now());
+        var entity = service.find();
+        return new SampleDTO(entity.getContent(), LocalDateTime.now());
     }
 }
