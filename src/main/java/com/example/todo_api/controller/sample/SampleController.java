@@ -1,6 +1,7 @@
 package com.example.todo_api.controller.sample;
 
 import com.example.todo_api.service.sample.SampleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +12,10 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/samples")
+@RequiredArgsConstructor
 public class SampleController {
 
-    private  final SampleService service = new SampleService();
+    private  final SampleService service;
 
     //GET /samples
     @GetMapping
