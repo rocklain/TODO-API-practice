@@ -15,3 +15,5 @@ public class SampleService {
         return new SampleEntity(record.getContent());
     }
 }
+
+
