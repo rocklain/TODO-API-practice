@@ -6,6 +6,7 @@ import com.example.todoapi.model.TaskDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.config.Task;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,9 +16,9 @@ public class TaskController implements TasksApi {
     private final TaskService taskService;
 
     @Override
-    public ResponseEntity<TaskDTO> showTask() {
+    public ResponseEntity<TaskDTO> showTask(Long taskId) {
 
-        var entity = taskService.find();
+        var entity = taskService.find(taskId);
 
         var dto = new TaskDTO();
         dto.setId(entity.getId());
