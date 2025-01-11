@@ -1,5 +1,6 @@
 package com.example.todo_api.service.task;
 
+import com.example.todo_api.controller.task.TaskEntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,6 @@ public class TaskService {
     public TaskEntity find(long taskId) {
         return taskRepository.select(taskId)
                 .map(record -> new TaskEntity(record.getId(), record.getTitle()))
-                .orElseThrow(() -> new IllegalStateException("TODO")); // TODO
+                .orElseThrow(() -> new TaskEntityNotFoundException(taskId));
     }
 }
