@@ -16,8 +16,30 @@ paths:
       responses:
         '200':
           description: OK
+  /tasks/:
+    post:
+      summary: "タスク作成"
+      description: "タスクを新規作成します"
+      operationId: createTask
+      tags:
+        - tasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskForm"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskDTO"
   /tasks/{taskId}:
     get:
+      summary: "タスク取得"
+      description: "指定されたIDのタスクを1件取得します"
       tags:
         - tasks
       operationId: showTask
@@ -38,8 +60,20 @@ paths:
                 $ref: "#/components/schemas/TaskDTO"
         '404':
           description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundError"
 components:
   schemas:
+    TaskForm:
+      type: object
+      properties:
+        title:
+          type: string
+          description: "作成されるタスクのタイトル"
+      required:
+        - title
     TaskDTO:
       type: object
       properties:
@@ -53,4 +87,18 @@ components:
           required:
             - id
             - title
+    ResourceNotFoundError:
+      description: "指定したリソースが存在しない"
+      type: object
+      properties:
+        title:
+          type: string
+          description: "エラーのタイトル"
+          default: "Resouce Not Found"
+        detail:
+          type: string
+          description: "エラーの詳細"
+      required:
+        - title
+        - detail
 
