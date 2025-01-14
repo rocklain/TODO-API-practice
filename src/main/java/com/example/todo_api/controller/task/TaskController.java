@@ -5,6 +5,7 @@ import com.example.todo_api.service.task.TaskService;
 import com.example.todoapi.controller.TasksApi;
 import com.example.todoapi.model.TaskDTO;
 import com.example.todoapi.model.TaskForm;
+import com.example.todoapi.model.TaskListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,7 +50,20 @@ public class TaskController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<Void> listTasks() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<TaskListDTO> listTasks() {
+        var entityList = taskService.find();
+        var dtoList = entityList.stream()
+                .map(taskEntity -> {
+                    var taskDTO = new TaskDTO();
+                    taskDTO.setId(taskEntity.getId());
+                    taskDTO.setTitle(taskEntity.getTitle());
+                    return taskDTO;
+                })
+                .collect(Collectors.toList());
+
+        var dto = new TaskListDTO();
+        dto.setResults(dtoList);
+
+        return ResponseEntity.ok(dto);
     }
 }
