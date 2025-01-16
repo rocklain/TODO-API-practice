@@ -21,5 +21,4 @@ public interface TaskRepository {
     @Insert("INSERT INTO tasks (title) VALUES (#{title})")
     void insert(TaskRecord record);
 
-
 }
